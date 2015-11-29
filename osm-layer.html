@@ -1,0 +1,42 @@
+<link rel="import" href="../polymer/polymer.html">
+<script src="http://openlayers.org/en/v3.11.2/build/ol.js"></script>
+
+<!--
+An open street map element based on polymer 1.0 .
+
+@demo demo/index.html
+-->
+
+<dom-module id="osm-layer">
+  <script>
+    Polymer({
+      is: 'osm-layer',
+
+      properties: {
+
+        visible: {
+          type: Boolean,
+          value: true
+        },
+
+        preload: {
+          type: Number,
+          notify: 0
+        },
+
+        source: {
+          type: String,
+          value: 'osm'
+        },
+
+      },
+      getOlLayerTile: function() {
+        return new ol.layer.Tile({ 
+          visible: this.visible,
+          preload: this.preload,
+          source: new ol.source.MapQuest({ layer: this.source }) 
+        });
+      }
+    });
+  </script>
+</dom-module>

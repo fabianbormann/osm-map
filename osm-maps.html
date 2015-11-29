@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="osm-layer.html">
 <link rel="stylesheet" href="http://openlayers.org/en/v3.11.2/css/ol.css" type="text/css">
 <script src="../jquery/dist/jquery.min.js"></script>
 <script src="http://openlayers.org/en/v3.11.2/build/ol.js"></script>
@@ -59,11 +60,22 @@ An open street map element based on polymer 1.0 .
 
       },
 
+      /**
+       * Get osm-layer children and convert them to a ol.layer.Tile 
+       * Add all converted elements to the map
+       */
       attached: function() {
+        layers = [];
+        if( this.queryAllEffectiveChildren('osm-layer') < 0 )
+          layers.push( new ol.layer.Tile({ source: new ol.source.MapQuest({layer: 'osm'}) }) );
+        else
+          $.each(this.queryAllEffectiveChildren('osm-layer'), function(index, element) {
+            layers.push( element.getOlLayerTile() );
+            console.log(element.getOlLayerTile())
+          });
+
         this.map = new ol.Map({
-          layers: [
-            new ol.layer.Tile({ source: new ol.source.OSM() })
-          ],
+          layers: layers,
           target: 'map',
 
           controls: ol.control.defaults({
@@ -74,7 +86,7 @@ An open street map element based on polymer 1.0 .
             zoom: this.zoom
           })
         });
-        this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]))
+        this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
       },
 
       _computeCenter: function(longitude, latitude) {

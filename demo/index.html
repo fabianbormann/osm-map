@@ -6,6 +6,7 @@
     <title>osm-maps Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="../osm-maps.html">
+    <link rel="import" href="../osm-layer.html">
     <style type="text/css">
       html, body {
         height: 100%;
@@ -17,7 +18,11 @@
   <body unresolved>
 
     <p>An example of <code>&lt;osm-maps&gt;</code>:</p>
-    <osm-maps latitude="53.834089" longitude="10.703718" zoom="16"></osm-maps>
+    <osm-maps latitude="53.834089" longitude="10.703718" zoom="16">
+      <osm-layer source="osm" visible="true"></osm-layer>
+      <osm-layer source="hyb" visible="false"></osm-layer>
+      <osm-layer source="sat" visible="false"></osm-layer>
+    </osm-maps>
 
   </body>
 </html>
