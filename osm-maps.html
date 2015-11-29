@@ -37,23 +37,24 @@ An open street map element based on polymer 1.0 .
 
         latitude: {
           type: Number,
-          value: 53.834089,
-          notify: true,
-          observer: "_setCenter"
+          notify: true
         },
 
         longitude: {
           type: Number,
-          value: 10.703718,
-          notify: true,
-          observer: "_setCenter"
+          notify: true
+        },
+
+        center: {
+          type: Array,
+          computed: '_computeCenter(longitude, latitude)',
+          observer: '_setCenter'
         },
 
         zoom: {
           type: Number,
-          value: 2,
           notify: true,
-          observer: "_setZoom"
+          observer: '_setZoom'
         }
 
       },
@@ -70,20 +71,24 @@ An open street map element based on polymer 1.0 .
           }),
 
           view: new ol.View({
-            zoom: 16
+            zoom: this.zoom
           })
         });
-        console.log(this.map.getView().getCenter());
         this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]))
       },
 
-      _setCenter: function () {
-        //this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
-        console.log()
+      _computeCenter: function(longitude, latitude) {
+        return [longitude, latitude];
       },
 
-      _setZoom: function (zoom) {
-        //this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
+      _setCenter: function(center) {
+        if (this.map)
+          this.map.getView().setCenter(ol.proj.fromLonLat(center));
+      },
+
+      _setZoom: function(zoom) {
+        if (this.map)
+          this.map.getView().setZoom(zoom);
       }
     });
   </script>
