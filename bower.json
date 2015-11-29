@@ -1,0 +1,28 @@
+{
+  "name": "osm-maps",
+  "version": "0.0.1",
+  "authors": [
+    "Fabian Bormann <fabian.bormann@student.uni-luebeck.de>"
+  ],
+  "description": "An open street map element based on polymer 1.0.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "osm",
+    "maps",
+    "navigation"
+  ],
+  "main": "osm-maps.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/fabianbormann/osm-maps",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+  }
+}

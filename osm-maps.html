@@ -1,0 +1,46 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+An open street map element based on polymer 1.0 .
+
+@demo demo/index.html
+-->
+
+<dom-module id="osm-maps">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      #map {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+    <div id="map"></div>
+    <content></content>
+    <p class="author">
+      <img src$="{{author.image}}">
+      Cheers,<br/>
+      <span class="name">{{author.name}}</span>
+    </p>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'osm-maps',
+
+      properties: {
+
+      },
+
+      ready: function() {
+      }
+    });
+  </script>
+</dom-module>
