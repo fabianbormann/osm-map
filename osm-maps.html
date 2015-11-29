@@ -1,4 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="stylesheet" href="http://openlayers.org/en/v3.11.2/css/ol.css" type="text/css">
+<script src="../jquery/dist/jquery.min.js"></script>
+<script src="http://openlayers.org/en/v3.11.2/build/ol.js"></script>
 
 <!--
 An open street map element based on polymer 1.0 .
@@ -22,13 +25,8 @@ An open street map element based on polymer 1.0 .
         margin: 0;
       }
     </style>
-    <div id="map"></div>
+    <div id="map" class="map"></div>
     <content></content>
-    <p class="author">
-      <img src$="{{author.image}}">
-      Cheers,<br/>
-      <span class="name">{{author.name}}</span>
-    </p>
   </template>
 
   <script>
@@ -37,9 +35,55 @@ An open street map element based on polymer 1.0 .
 
       properties: {
 
+        latitude: {
+          type: Number,
+          value: 53.834089,
+          notify: true,
+          observer: "_setCenter"
+        },
+
+        longitude: {
+          type: Number,
+          value: 10.703718,
+          notify: true,
+          observer: "_setCenter"
+        },
+
+        zoom: {
+          type: Number,
+          value: 2,
+          notify: true,
+          observer: "_setZoom"
+        }
+
       },
 
-      ready: function() {
+      attached: function() {
+        this.map = new ol.Map({
+          layers: [
+            new ol.layer.Tile({ source: new ol.source.OSM() })
+          ],
+          target: 'map',
+
+          controls: ol.control.defaults({
+            attributionOptions: ({ collapsible: false })
+          }),
+
+          view: new ol.View({
+            zoom: 16
+          })
+        });
+        console.log(this.map.getView().getCenter());
+        this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]))
+      },
+
+      _setCenter: function () {
+        //this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
+        console.log()
+      },
+
+      _setZoom: function (zoom) {
+        //this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
       }
     });
   </script>

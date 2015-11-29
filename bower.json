@@ -13,14 +13,15 @@
     "navigation"
   ],
   "main": "osm-maps.html",
-  "license": "http://polymer.github.io/LICENSE.txt",
+  "license": "https://raw.githubusercontent.com/fabianbormann/osm-maps/master/LICENSE",
   "homepage": "https://github.com/fabianbormann/osm-maps",
   "ignore": [
     "/.*",
     "/test/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.2.0"
+    "polymer": "Polymer/polymer#^1.2.0",
+    "jquery": "~2.1.4"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
