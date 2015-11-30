@@ -14,28 +14,35 @@ An open street map element based on polymer 1.0 .
 
       properties: {
 
-        visible: {
-          type: Boolean,
-          value: true
-        },
-
-        preload: {
+        latitude: {
           type: Number,
-          notify: 0
+          notify: true,
+          value: 53.834089
         },
 
-        source: {
-          type: String,
-          value: 'osm'
+        longitude: {
+          type: Number,
+          notify: true,
+          value: 10.703718
         },
+
+        scale: {
+          type: Number,
+          notify: true,
+          value: 0.3
+        },
+
+        image: {
+          type: String,
+          value: '../data/marker.png'
+        }
 
       },
       getOsmMarker: function() {
         var iconFeatures=[];
 
         var iconFeature = new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.transform([10.703718, 53.834089], 'EPSG:4326',     
-          'EPSG:3857')),
+          geometry: new ol.geom.Point(ol.proj.fromLonLat([this.longitude, this.latitude])),
           name: 'Ratzeburger Allee 160',
           population: 4000,
           rainfall: 500
@@ -48,12 +55,13 @@ An open street map element based on polymer 1.0 .
         });
 
         var iconStyle = new ol.style.Style({
-          image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+          image: new ol.style.Icon(({
             anchor: [0.5, 46],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
             opacity: 0.75,
-            src: 'data/marker.png'
+            src: this.image,
+            scale: this.scale
           }))
         });
 
