@@ -1,4 +1,4 @@
-# osm-maps
+# osm-map
 
 An open street map element based on polymer 1.0.
 
@@ -28,4 +28,4 @@ And you can run it via:
     polyserve
 
 Once running, you can preview your element at
-`http://localhost:8080/components/osm-maps/`, where `osm-maps` is the name of the directory containing it.
+`http://localhost:8080/components/osm-map/`, where `osm-map` is the name of the directory containing it.
