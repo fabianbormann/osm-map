@@ -2,6 +2,13 @@
 
 An open street map element based on polymer 1.0.
 
+## Usage
+
+	<osm-map latitude="53.834089" longitude="10.703718" zoom="16">
+		<osm-marker longitude="10.703718" latitude="53.834089" scale="0.2" image="../data/marker-blue-shadow.png"></osm-marker>
+		<osm-marker longitude="10.705318" latitude="53.835789" image="../data/marker-green-icon-shadow.png"></osm-marker>
+		<osm-marker longitude="10.702318" latitude="53.832789" image="../data/marker-red.png"></osm-marker>
+	</osm-map>
 
 ## Dependencies
 
