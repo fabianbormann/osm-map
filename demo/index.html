@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>osm-maps Demo</title>
+    <title>osm-map Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="../osm-maps.html">
+    <link rel="import" href="../osm-map.html">
     <link rel="import" href="../osm-marker.html">
     <link rel="import" href="../osm-layer.html">
     <style type="text/css">
@@ -21,15 +21,15 @@
       <input value="{{ latitude::input }}">
       <input value="{{ longitude::input }}">
 
-      <p>An example of <code>&lt;osm-maps&gt;</code>:</p>
-      <osm-maps latitude="{{ latitude }}" longitude="{{ longitude }}" zoom="16">
+      <p>An example of <code>&lt;osm-map&gt;</code>:</p>
+      <osm-map latitude="{{ latitude }}" longitude="{{ longitude }}" zoom="16">
         <!-- <osm-layer source="osm" visible="true"></osm-layer>
         <osm-layer source="hyb" visible="false"></osm-layer>
         <osm-layer source="sat" visible="false"></osm-layer> -->
         <osm-marker longitude="10.703718" latitude="53.834089" scale="0.2" image="../data/marker-blue-shadow.png"></osm-marker>
         <osm-marker longitude="10.705318" latitude="53.835789" image="../data/marker-green-icon-shadow.png"></osm-marker>
         <osm-marker longitude="10.702318" latitude="53.832789" image="../data/marker-red.png"></osm-marker>
-      </osm-maps>
+      </osm-map>
     </template>
   </body>
 </html>

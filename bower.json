@@ -1,5 +1,5 @@
 {
-  "name": "osm-maps",
+  "name": "osm-map",
   "version": "0.0.1",
   "authors": [
     "Fabian Bormann <fabian.bormann@student.uni-luebeck.de>"
@@ -12,9 +12,9 @@
     "maps",
     "navigation"
   ],
-  "main": "osm-maps.html",
-  "license": "https://raw.githubusercontent.com/fabianbormann/osm-maps/master/LICENSE",
-  "homepage": "https://github.com/fabianbormann/osm-maps",
+  "main": "osm-map.html",
+  "license": "https://raw.githubusercontent.com/fabianbormann/osm-map/master/LICENSE",
+  "homepage": "https://github.com/fabianbormann/osm-map",
   "ignore": [
     "/.*",
     "/test/"
