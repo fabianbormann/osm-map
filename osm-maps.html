@@ -38,12 +38,14 @@ An open street map element based on polymer 1.0 .
 
         latitude: {
           type: Number,
-          notify: true
+          notify: true,
+          value: 53.834089
         },
 
         longitude: {
           type: Number,
-          notify: true
+          notify: true,
+          value: 10.703718
         },
 
         center: {
@@ -66,12 +68,11 @@ An open street map element based on polymer 1.0 .
        */
       attached: function() {
         layers = [];
-        if( this.queryAllEffectiveChildren('osm-layer') < 0 )
+        if( this.queryAllEffectiveChildren('osm-layer').length <= 0 )
           layers.push( new ol.layer.Tile({ source: new ol.source.MapQuest({layer: 'osm'}) }) );
         else
           $.each(this.queryAllEffectiveChildren('osm-layer'), function(index, element) {
             layers.push( element.getOlLayerTile() );
-            console.log(element.getOlLayerTile())
           });
 
         this.map = new ol.Map({
@@ -90,7 +91,7 @@ An open street map element based on polymer 1.0 .
       },
 
       _computeCenter: function(longitude, latitude) {
-        return [longitude, latitude];
+        return [Number(longitude), Number(latitude)];
       },
 
       _setCenter: function(center) {

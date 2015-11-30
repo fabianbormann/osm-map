@@ -16,13 +16,16 @@
     </style>
   </head>
   <body unresolved>
+    <template is="dom-bind">
+      <input value="{{ latitude::input }}">
+      <input value="{{ longitude::input }}">
 
-    <p>An example of <code>&lt;osm-maps&gt;</code>:</p>
-    <osm-maps latitude="53.834089" longitude="10.703718" zoom="16">
-      <osm-layer source="osm" visible="true"></osm-layer>
-      <osm-layer source="hyb" visible="false"></osm-layer>
-      <osm-layer source="sat" visible="false"></osm-layer>
-    </osm-maps>
-
+      <p>An example of <code>&lt;osm-maps&gt;</code>:</p>
+      <osm-maps latitude="{{ latitude }}" longitude="{{ longitude }}" zoom="16">
+      <!--  <osm-layer source="osm" visible="true"></osm-layer>
+        <osm-layer source="hyb" visible="false"></osm-layer>
+        <osm-layer source="sat" visible="false"></osm-layer> -->
+      </osm-maps>
+    </template>
   </body>
 </html>
