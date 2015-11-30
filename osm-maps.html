@@ -75,6 +75,11 @@ An open street map element based on polymer 1.0 .
             layers.push( element.getOlLayerTile() );
           });
 
+        $.each(this.queryAllEffectiveChildren('osm-marker'), function(index, element) {
+          console.log( element.getOsmMarker() );
+          layers.push( element.getOsmMarker() );
+        });
+
         this.map = new ol.Map({
           layers: layers,
           target: 'map',
@@ -87,6 +92,7 @@ An open street map element based on polymer 1.0 .
             zoom: this.zoom
           })
         });
+
         this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
       },
 

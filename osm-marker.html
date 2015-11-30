@@ -1,0 +1,67 @@
+<link rel="import" href="../polymer/polymer.html">
+<script src="http://openlayers.org/en/v3.11.2/build/ol.js"></script>
+
+<!--
+An open street map element based on polymer 1.0 .
+
+@demo demo/index.html
+-->
+
+<dom-module id="osm-marker">
+  <script>
+    Polymer({
+      is: 'osm-marker',
+
+      properties: {
+
+        visible: {
+          type: Boolean,
+          value: true
+        },
+
+        preload: {
+          type: Number,
+          notify: 0
+        },
+
+        source: {
+          type: String,
+          value: 'osm'
+        },
+
+      },
+      getOsmMarker: function() {
+        var iconFeatures=[];
+
+        var iconFeature = new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.transform([10.703718, 53.834089], 'EPSG:4326',     
+          'EPSG:3857')),
+          name: 'Ratzeburger Allee 160',
+          population: 4000,
+          rainfall: 500
+        });
+
+        iconFeatures.push(iconFeature);
+
+        var vectorSource = new ol.source.Vector({
+          features: iconFeatures //add an array of features
+        });
+
+        var iconStyle = new ol.style.Style({
+          image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 46],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            opacity: 0.75,
+            src: 'data/marker.png'
+          }))
+        });
+
+        return vectorLayer = new ol.layer.Vector({
+          source: vectorSource,
+          style: iconStyle
+        });
+      }
+    });
+  </script>
+</dom-module>
