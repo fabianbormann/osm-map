@@ -1,0 +1,70 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="osm-point.html">
+<script src="http://openlayers.org/en/v3.11.2/build/ol.js"></script>
+
+<!--
+An open street map element based on polymer 1.0 .
+
+@demo demo/index.html
+-->
+
+<dom-module id="osm-poly">
+  <script>
+    Polymer({
+      is: 'osm-poly',
+      properties: {
+        strokeColor: {
+          type: String,
+          value: '#0091ea',
+          notify: true
+        },
+        width: {
+          type: Number,
+          value: 4,
+          notify: true
+        },
+        fill: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+        fillColor: {
+          type: String,
+          value: 'rgba(0,150,10,0.4)',
+          notify: true
+        }
+      },
+      polygon: function() {
+      
+        points = [];
+        $.each(this.queryAllEffectiveChildren('osm-point'), function(index, point) {
+          points.push(point.position());
+        });
+
+        geometry = new ol.geom.LineString(points, 'XY');
+
+        if(this.fill) {
+          points.push(this.queryAllEffectiveChildren('osm-point')[0].position());
+
+          geometry = new ol.geom.Polygon([points], 'XY');
+        }
+        // need to transfrom the lineString described in 
+        // https://groups.google.com/forum/#!topic/ol3-dev/TqLw0RRJLXw
+        geometry.transform('EPSG:4326', 'EPSG:3857');
+
+        return new ol.layer.Vector({
+          source: new ol.source.Vector({
+              features: [new ol.Feature({ geometry: geometry })]
+          }),
+          style: new ol.style.Style({
+              stroke: new ol.style.Stroke({ color: this.strokeColor, width: this.width }),
+              fill: new ol.style.Fill({
+                color: this.fillColor
+              })
+          }),
+          name: 'routeLayer'
+        });
+      }
+    });
+  </script>
+</dom-module>

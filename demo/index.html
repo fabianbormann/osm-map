@@ -8,6 +8,8 @@
     <link rel="import" href="../osm-map.html">
     <link rel="import" href="../osm-marker.html">
     <link rel="import" href="../osm-layer.html">
+    <link rel="import" href="../osm-poly.html">
+    <link rel="import" href="../osm-point.html">
     <style type="text/css">
       html, body {
         height: 100%;
@@ -22,15 +24,20 @@
       <input value="{{ longitude::input }}">
 
       <p>An example of <code>&lt;osm-map&gt;</code>:</p>
-      <osm-map latitude="{{ latitude }}" longitude="{{ longitude }}" zoom="16">
-        <!-- <osm-layer source="osm" visible="true"></osm-layer>
-        <osm-layer source="hyb" visible="false"></osm-layer>
-        <osm-layer source="sat" visible="false"></osm-layer> -->
-        <osm-marker longitude="10.703718" latitude="53.834089" scale="0.2" image="../data/marker-blue-shadow.png"></osm-marker>
-        <osm-marker longitude="10.705318" latitude="53.835789" image="../data/marker-green-icon-shadow.png"></osm-marker>
-        <osm-marker longitude="10.702318" latitude="53.832789" image="../data/marker-red.png"></osm-marker>
-        <osm-marker longitude="10.705318" latitude="53.830789"></osm-marker>
-        <osm-marker longitude="10.709318" latitude="53.839789" scale="2.5"></osm-marker>
+      <osm-map latitude="{{ latitude }}" longitude="{{ longitude }}" zoom="11">
+        <osm-poly stroke-color="red">
+          <osm-point latitude="53.839089" longitude="10.703718"></osm-point>
+          <osm-point latitude="53.834089" longitude="10.708718"></osm-point>
+          <osm-point latitude="53.829089" longitude="10.703718"></osm-point>
+          <osm-point latitude="53.834089" longitude="10.698718"></osm-point>
+        </osm-poly>
+
+        <osm-poly fill fill-color="rgba(0,10,150,0.4)">
+          <osm-point latitude="53.799089" longitude="10.703718"></osm-point>
+          <osm-point latitude="53.794089" longitude="10.708718"></osm-point>
+          <osm-point latitude="53.789089" longitude="10.703718"></osm-point>
+          <osm-point latitude="53.794089" longitude="10.698718"></osm-point>
+        </osm-poly>
       </osm-map>
     </template>
   </body>

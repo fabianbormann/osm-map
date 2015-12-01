@@ -1,0 +1,34 @@
+<link rel="import" href="../polymer/polymer.html">
+<script src="http://openlayers.org/en/v3.11.2/build/ol.js"></script>
+
+<!--
+An open street map element based on polymer 1.0 .
+
+@demo demo/index.html
+-->
+
+<dom-module id="osm-point">
+  <script>
+    Polymer({
+      is: 'osm-point',
+
+      properties: {
+
+        latitude: {
+          type: Number,
+          notify: true,
+          value: 53.834089
+        },
+
+        longitude: {
+          type: Number,
+          notify: true,
+          value: 10.703718
+        },
+      },
+      position: function() {
+        return [this.longitude, this.latitude];
+      }
+    });
+  </script>
+</dom-module>

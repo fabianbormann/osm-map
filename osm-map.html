@@ -67,23 +67,17 @@ An open street map element based on polymer 1.0 .
        * Add all converted elements to the map
        */
       attached: function() {
-        layers = [];
-        if( this.queryAllEffectiveChildren('osm-layer').length <= 0 )
-          layers.push( new ol.layer.Tile({ source: new ol.source.MapQuest({layer: 'osm'}) }) );
-        else
-          $.each(this.queryAllEffectiveChildren('osm-layer'), function(index, element) {
-            layers.push( element.getOlLayerTile() );
-          });
-
-        $.each(this.queryAllEffectiveChildren('osm-marker'), function(index, element) {
-          console.log( element.getOsmMarker() );
-          layers.push( element.getOsmMarker() );
+        var layers = [];
+        $.each(this.queryAllEffectiveChildren('osm-layer'), function(index, layer) {
+          layers.push( layer.getOlLayerTile() );
         });
 
-        this.map = new ol.Map({
+        if(layers.length <= 0)
+          layers.push( new ol.layer.Tile({ source: new ol.source.OSM() }) );
+
+        this.map = map = new ol.Map({
           layers: layers,
           target: 'map',
-
           controls: ol.control.defaults({
             attributionOptions: ({ collapsible: false })
           }),
@@ -94,8 +88,15 @@ An open street map element based on polymer 1.0 .
         });
 
         this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
-      },
 
+        $.each(this.queryAllEffectiveChildren('osm-marker'), function(index, marker) {
+          map.addLayer( marker.getOsmMarker() );
+        });
+
+        $.each(this.queryAllEffectiveChildren('osm-poly'), function(index, poly) {
+          map.addLayer( poly.polygon() );
+        });
+      },
       _computeCenter: function(longitude, latitude) {
         return [Number(longitude), Number(latitude)];
       },
