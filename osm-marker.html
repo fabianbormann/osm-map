@@ -29,7 +29,7 @@ An open street map element based on polymer 1.0 .
         scale: {
           type: Number,
           notify: true,
-          value: 0.3
+          value: 0.4
         },
 
         image: {
@@ -54,7 +54,7 @@ An open street map element based on polymer 1.0 .
         });
 
 
-        if(this.image != '')
+        if(this.image)
           var iconImage = new ol.style.Icon(({
             anchor: [0.5, 46],
             anchorXUnits: 'fraction',
@@ -65,7 +65,7 @@ An open street map element based on polymer 1.0 .
           }))
         else
           var iconImage = new ol.style.Circle({
-            radius: 10,
+            radius: 25*this.scale,
             fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
             stroke: new ol.style.Stroke({color: 'red', width: 1})
           });
