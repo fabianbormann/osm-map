@@ -18,7 +18,7 @@ An OpenStreetMap polymer implementation. Based on OpenLayers (v3.3.0) and writte
 Add bower dependency
 
   	"dependencies": {
-  	...,
+  		...,
     	"osm-map": "FabianBormann/osm-map"
   	}
 
