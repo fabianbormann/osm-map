@@ -2,6 +2,8 @@
 
 An OpenStreetMap polymer implementation. Based on OpenLayers (v3.3.0) and written in polymer 1.0 style.
 
+![Alt text](https://drive.google.com/file/d/0B7xdAfg4r8gpRHUydGE3SnE5bVU/view?usp=sharing "Screenshot of /demo/index.html")
+
 ## Usage
 
 	<osm-map latitude="53.834089" longitude="10.703718" zoom="16">
