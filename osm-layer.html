@@ -2,7 +2,13 @@
 <script src="http://openlayers.org/en/v3.11.2/build/ol.js"></script>
 
 <!--
-An open street map element based on polymer 1.0 .
+The `osm-layer` element allows to add different layer typs to the `osm-map` element.
+
+#### Example
+
+    <osm-map>
+      <osm-layer source="sat"></osm-layer>
+    </osm-map>
 
 @demo demo/index.html
 -->
@@ -13,24 +19,39 @@ An open street map element based on polymer 1.0 .
       is: 'osm-layer',
 
       properties: {
-
+        /**
+         * Visibility. Default is true (visible).
+         */
         visible: {
           type: Boolean,
           value: true
         },
 
+        /**
+         * Preload. Load low-resolution tiles up to preload levels. 
+         * By default preload is 0, which means no preloading.
+         */
         preload: {
           type: Number,
           notify: 0
         },
 
+        /**
+         * Possible values are osm, sat, and hyb.
+         * See (http://openlayers.org/en/v3.8.2/apidoc/ol.source.MapQuest.html)
+         */
         source: {
           type: String,
           value: 'osm'
         },
 
       },
-      getOlLayerTile: function() {
+
+      /**
+       * Returns the computed ol.layer.Tile object.
+       * See (http://openlayers.org/en/v3.8.2/apidoc/ol.layer.Tile.html)
+       */
+      get: function() {
         return new ol.layer.Tile({ 
           visible: this.visible,
           preload: this.preload,

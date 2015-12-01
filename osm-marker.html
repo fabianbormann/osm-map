@@ -33,7 +33,8 @@ An open street map element based on polymer 1.0 .
         },
 
         image: {
-          type: String
+          type: String,
+          notify: true
         }
 
       },
@@ -52,7 +53,6 @@ An open street map element based on polymer 1.0 .
         var vectorSource = new ol.source.Vector({
           features: iconFeatures //add an array of features
         });
-
 
         if(this.image)
           var iconImage = new ol.style.Icon(({

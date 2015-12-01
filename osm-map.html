@@ -1,11 +1,12 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="osm-layer.html">
 <link rel="stylesheet" href="http://openlayers.org/en/v3.11.2/css/ol.css" type="text/css">
 <script src="../jquery/dist/jquery.min.js"></script>
 <script src="http://openlayers.org/en/v3.11.2/build/ol.js"></script>
 
 <!--
-An open street map element based on polymer 1.0 .
+The `osm-map` element renders a OpenStreetMap.
 
 @demo demo/index.html
 -->
@@ -35,41 +36,63 @@ An open street map element based on polymer 1.0 .
       is: 'osm-map',
 
       properties: {
-
+        /**
+         * A latitude to center the map on.
+         */
         latitude: {
           type: Number,
+          value: 53.834089,          
           notify: true,
-          value: 53.834089
+          reflectToAttribute: true
         },
 
+        /**
+         * A longitude to center the map on.
+         */
         longitude: {
           type: Number,
           notify: true,
-          value: 10.703718
+          value: 10.703718,
+          reflectToAttribute: true
         },
 
+        /**
+         * The map center computed when latitude oder longitude change.
+         */
         center: {
           type: Array,
           computed: '_computeCenter(longitude, latitude)',
           observer: '_setCenter'
         },
 
+        /**
+         * Zoom level will be apply to the map.
+         */ 
         zoom: {
           type: Number,
+          value: 12,
           notify: true,
           observer: '_setZoom'
         }
+      },
 
+      behaviors: [
+        Polymer.IronResizableBehavior
+      ],
+
+      listeners: {
+        'iron-resize': 'resize'
       },
 
       /**
-       * Get osm-layer children and convert them to a ol.layer.Tile 
-       * Add all converted elements to the map
+       * Get osm-layer children and convert them to a ol.layer.Tile
+       * Compute all osm-marker and osm-poly components to ol.layer.Vector 
+       * Add all converted elements to the map.
        */
       attached: function() {
         var layers = [];
         $.each(this.queryAllEffectiveChildren('osm-layer'), function(index, layer) {
-          layers.push( layer.getOlLayerTile() );
+          layers.push( layer.get() );
         });
 
         if(layers.length <= 0)
@@ -97,6 +120,17 @@ An open street map element based on polymer 1.0 .
           map.addLayer( poly.polygon() );
         });
       },
+
+      /**
+       * Call updateSize (http://dev.openlayers.org/docs/files/OpenLayers/Map-js.html#OpenLayers.Map.updateSize)
+       * if window size changed.
+       */
+      resize: function() {
+        console.log("called")
+        if (this.map)
+          this.map.updateSize();
+      },
+
       _computeCenter: function(longitude, latitude) {
         return [Number(longitude), Number(latitude)];
       },
