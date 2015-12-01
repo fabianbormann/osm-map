@@ -2,8 +2,6 @@
 
 An OpenStreetMap polymer implementation. Based on OpenLayers (v3.3.0) and written in polymer 1.0 style.
 
-![Alt text](https://github.com/fabianbormann/acoloid/blob/master/acoloid.png "Screenshot of /demo/index.html")
-
 ## Usage
 
 	<osm-map latitude="53.834089" longitude="10.703718" zoom="16">
@@ -14,6 +12,8 @@ An OpenStreetMap polymer implementation. Based on OpenLayers (v3.3.0) and writte
 		<osm-marker longitude="10.705318" latitude="53.830789"></osm-marker>
 		<osm-marker longitude="10.709318" latitude="53.839789" scale="2.5"></osm-marker>
 	</osm-map>
+
+![Alt text](data/screenshot.png "Screenshot of /demo/index.html")
 
 ## Include the osm-map component in your project
 
