@@ -33,13 +33,12 @@ An open street map element based on polymer 1.0 .
         },
 
         image: {
-          type: String,
-          value: '../data/marker.png'
+          type: String
         }
 
       },
       getOsmMarker: function() {
-        var iconFeatures=[];
+        var iconFeatures = [];
 
         var iconFeature = new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.fromLonLat([this.longitude, this.latitude])),
@@ -54,8 +53,9 @@ An open street map element based on polymer 1.0 .
           features: iconFeatures //add an array of features
         });
 
-        var iconStyle = new ol.style.Style({
-          image: new ol.style.Icon(({
+
+        if(this.image != '')
+          var iconImage = new ol.style.Icon(({
             anchor: [0.5, 46],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
@@ -63,6 +63,15 @@ An open street map element based on polymer 1.0 .
             src: this.image,
             scale: this.scale
           }))
+        else
+          var iconImage = new ol.style.Circle({
+            radius: 10,
+            fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
+            stroke: new ol.style.Stroke({color: 'red', width: 1})
+          });
+
+        var iconStyle = new ol.style.Style({
+          image: iconImage
         });
 
         return vectorLayer = new ol.layer.Vector({
