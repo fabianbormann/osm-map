@@ -76,11 +76,9 @@ The `osm-map` element renders a OpenStreetMap.
           reflectToAttribute: true
         },
 
-        map: {
-          type: Object,
-          readOnly: true
-        },
-
+        /**
+         * The map layers inlcude markers, polys and map types.
+         */
         layers: {
           type: Array,
           value: [],
@@ -104,21 +102,18 @@ The `osm-map` element renders a OpenStreetMap.
        */
       attached: function() {
         self = this;
-
         this.map = new ol.Map({
           layers: this.layers,
           target: 'map',
           controls: ol.control.defaults({
             attributionOptions: ({ collapsible: false })
           }),
-
           view: new ol.View({
             zoom: this.zoom
           })
         });
-
-      //  this.updateLayers();
-
+        
+        this.updateLayers();
         this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
         
         // Update zoom property if map resolution change
@@ -134,10 +129,7 @@ The `osm-map` element renders a OpenStreetMap.
         });
 
         this._observer = Polymer.dom(this).observeNodes( function(info) {
-          //this.processNewNodes(info.addedNodes);
-          //this.processRemovedNodes(info.removedNodes);
-          console.log(info.addedNodes);
-          console.log(info.removedNodes);
+          this.updateLayers();
         });
       },
 
@@ -164,21 +156,32 @@ The `osm-map` element renders a OpenStreetMap.
           this.map.getView().setZoom(zoom);
       },
 
+      /**
+       * Manage dynamically added child elements like layers, markers and polys.
+       * This function will also redraw the map if a `osm-point` added to a `osm-poly` element. 
+       */
       updateLayers: function() {
         self = this;
+        this.layers = [];
+        this.map.layers = this.layers; 
+
         $.each(this.queryAllEffectiveChildren('osm-layer'), function(index, layer) {
           self.layers.push( layer.get() );
         });
 
         if(this.layers.length <= 0)
-          this.layers.push( new ol.layer.Tile({ source: new ol.source.OSM() }) );
+          self.layers.push( new ol.layer.Tile({ source: new ol.source.OSM() }) );
 
         $.each(this.queryAllEffectiveChildren('osm-marker'), function(index, marker) {
-          self.map.addLayer( marker.getOsmMarker() );
+          self.layers.push( marker.getOsmMarker() );
         });
-        console.log(this.zoom)
+
         $.each(this.queryAllEffectiveChildren('osm-poly'), function(index, poly) {
-          self.map.addLayer( poly.polygon() );
+          self.layers.push( poly.polygon() );
+        });
+
+        $.each(this.layers, function (index, layer) {
+          self.map.addLayer(layer);
         });
       }
     });

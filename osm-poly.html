@@ -38,6 +38,12 @@ An open street map element based on polymer 1.0 .
         }
       },
 
+      attached: function (argument) {
+        this._observer = Polymer.dom(this).observeNodes( function(info) {
+          this.fire('update-layers');
+        });
+      },
+
       polygon: function() {
         points = [];
         $.each(this.queryAllEffectiveChildren('osm-point'), function(index, point) {
