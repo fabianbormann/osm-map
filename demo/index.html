@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>osm-map Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../../paper-input/paper-input.html">
     <link rel="import" href="../osm-map.html">
     <link rel="import" href="../osm-marker.html">
     <link rel="import" href="../osm-layer.html">
@@ -20,11 +21,18 @@
   </head>
   <body unresolved>
     <template id="demo" is="dom-bind">
-      <input value="{{ latitude::input }}">
+      <datalist id="addresses">
+        <template is="dom-repeat" items="{{suggestions}}" as="suggestion">
+            <option value="{{suggestion}}"></option>
+        </template>
+      </datalist>
+
+      <paper-input label="Search" type="search"
+        placeholder="Set a start address" autocomplete="on" list="addresses" on-keyup="onKeyPress" results="5">
+      </paper-input>
       <input value="{{ longitude::input }}">
 
       <p>An example of <code>&lt;osm-map&gt;</code>:</p>
-
       <osm-map>
         <osm-poly fill fill-color="rgba(0,10,150,0.4)">
             <template is="dom-repeat" items="{{ points }}">
@@ -35,6 +43,7 @@
     </template>
   </body>
   <script>
+  //TODO: ROUTING http://wiki.openstreetmap.org/wiki/DE:OpenRouteService
     var demo = document.querySelector('#demo');
     demo.points = [
         { latitude : 53.799089, longitude : 10.703718 },
@@ -42,5 +51,18 @@
         { latitude : 53.789089, longitude : 10.703718 },
         { latitude : 53.794089, longitude : 10.698718 }
       ];
+
+    document.querySelector('#demo').suggestions = [
+      "Hallo",
+      "Hand",
+      "Held",
+      "Heldenhaft",
+      "Hochgehangelt",
+      "Heidi"
+    ]
+
+    document.querySelector('#demo').onKeyPress = function (e) {
+      
+    }
   </script>
 </html>
