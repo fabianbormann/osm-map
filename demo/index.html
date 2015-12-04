@@ -19,26 +19,28 @@
     </style>
   </head>
   <body unresolved>
-    <template is="dom-bind">
+    <template id="demo" is="dom-bind">
       <input value="{{ latitude::input }}">
       <input value="{{ longitude::input }}">
 
       <p>An example of <code>&lt;osm-map&gt;</code>:</p>
-      <osm-map latitude="{{ latitude }}" longitude="{{ longitude }}" zoom="11">
-        <osm-poly stroke-color="red">
-          <osm-point latitude="53.839089" longitude="10.703718"></osm-point>
-          <osm-point latitude="53.834089" longitude="10.708718"></osm-point>
-          <osm-point latitude="53.829089" longitude="10.703718"></osm-point>
-          <osm-point latitude="53.834089" longitude="10.698718"></osm-point>
-        </osm-poly>
 
+      <osm-map>
         <osm-poly fill fill-color="rgba(0,10,150,0.4)">
-          <osm-point latitude="53.799089" longitude="10.703718"></osm-point>
-          <osm-point latitude="53.794089" longitude="10.708718"></osm-point>
-          <osm-point latitude="53.789089" longitude="10.703718"></osm-point>
-          <osm-point latitude="53.794089" longitude="10.698718"></osm-point>
+            <template is="dom-repeat" items="{{ points }}">
+              <osm-point longitude$="{{ item.longitude }}" latitude$="{{ item.latitude }}"></osm-point>
+            </template>
         </osm-poly>
       </osm-map>
     </template>
   </body>
+  <script>
+    var demo = document.querySelector('#demo');
+    demo.points = [
+        { latitude : 53.799089, longitude : 10.703718 },
+        { latitude : 53.794089, longitude : 10.708718 },
+        { latitude : 53.789089, longitude : 10.703718 },
+        { latitude : 53.794089, longitude : 10.698718 }
+      ];
+  </script>
 </html>
