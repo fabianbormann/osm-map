@@ -74,6 +74,17 @@ The `osm-map` element renders a OpenStreetMap.
           notify: true,
           observer: '_setZoom',
           reflectToAttribute: true
+        },
+
+        map: {
+          type: Object,
+          readOnly: true
+        },
+
+        layers: {
+          type: Array,
+          value: [],
+          readOnly: true
         }
       },
 
@@ -82,7 +93,8 @@ The `osm-map` element renders a OpenStreetMap.
       ],
 
       listeners: {
-        'iron-resize': 'resize'
+        'iron-resize': 'resize',
+        'update-layers': 'updateLayers'
       },
 
       /**
@@ -91,16 +103,10 @@ The `osm-map` element renders a OpenStreetMap.
        * Add all converted elements to the map.
        */
       attached: function() {
-        var layers = [];
-        $.each(this.queryAllEffectiveChildren('osm-layer'), function(index, layer) {
-          layers.push( layer.get() );
-        });
-
-        if(layers.length <= 0)
-          layers.push( new ol.layer.Tile({ source: new ol.source.OSM() }) );
+        self = this;
 
         this.map = new ol.Map({
-          layers: layers,
+          layers: this.layers,
           target: 'map',
           controls: ol.control.defaults({
             attributionOptions: ({ collapsible: false })
@@ -111,9 +117,10 @@ The `osm-map` element renders a OpenStreetMap.
           })
         });
 
-        this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
+      //  this.updateLayers();
 
-        self = this;
+        this.map.getView().setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
+        
         // Update zoom property if map resolution change
         this.map.getView().on('change:resolution', function() {
           self.zoom = self.map.getView().getZoom();
@@ -126,12 +133,11 @@ The `osm-map` element renders a OpenStreetMap.
           self.latitude = centerLonLat[1];
         });
 
-        $.each(this.queryAllEffectiveChildren('osm-marker'), function(index, marker) {
-          self.map.addLayer( marker.getOsmMarker() );
-        });
-
-        $.each(this.queryAllEffectiveChildren('osm-poly'), function(index, poly) {
-          self.map.addLayer( poly.polygon() );
+        this._observer = Polymer.dom(this).observeNodes( function(info) {
+          //this.processNewNodes(info.addedNodes);
+          //this.processRemovedNodes(info.removedNodes);
+          console.log(info.addedNodes);
+          console.log(info.removedNodes);
         });
       },
 
@@ -156,6 +162,24 @@ The `osm-map` element renders a OpenStreetMap.
       _setZoom: function(zoom) {
         if (this.map)
           this.map.getView().setZoom(zoom);
+      },
+
+      updateLayers: function() {
+        self = this;
+        $.each(this.queryAllEffectiveChildren('osm-layer'), function(index, layer) {
+          self.layers.push( layer.get() );
+        });
+
+        if(this.layers.length <= 0)
+          this.layers.push( new ol.layer.Tile({ source: new ol.source.OSM() }) );
+
+        $.each(this.queryAllEffectiveChildren('osm-marker'), function(index, marker) {
+          self.map.addLayer( marker.getOsmMarker() );
+        });
+        console.log(this.zoom)
+        $.each(this.queryAllEffectiveChildren('osm-poly'), function(index, poly) {
+          self.map.addLayer( poly.polygon() );
+        });
       }
     });
   </script>
