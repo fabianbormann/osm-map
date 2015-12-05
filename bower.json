@@ -23,10 +23,11 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0",
     "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.0",
-    "jquery": "~2.1.4",
-    "paper-input": "PolymerElements/paper-input#~1.1.2"
+    "jquery": "~2.1.4"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "paper-elements": "PolymerElements/paper-elements",
+    "iron-elements": "PolymerElements/iron-elements"
   }
 }
