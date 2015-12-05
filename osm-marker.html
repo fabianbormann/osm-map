@@ -2,7 +2,18 @@
 <script src="http://openlayers.org/en/v3.11.2/build/ol.js"></script>
 
 <!--
-An open street map element based on polymer 1.0 .
+The `osm-marker` element draws a marker at the given position
+with a specified image. (Marker without image attribute are displayed as circles)
+
+Example:
+
+  <osm-map latitude="53.834089" longitude="10.703718" zoom="16">
+      <osm-marker longitude="10.703718" latitude="53.834089" scale="0.2" image="../data/marker-blue-shadow.png"></osm-marker>
+      <osm-marker longitude="10.705318" latitude="53.835789" image="../data/marker-green-icon-shadow.png"></osm-marker>
+      <osm-marker longitude="10.702318" latitude="53.832789" image="../data/marker-red.png"></osm-marker>
+      <osm-marker longitude="10.705318" latitude="53.830789"></osm-marker>
+      <osm-marker longitude="10.709318" latitude="53.839789" scale="2.5"></osm-marker>
+  </osm-map>
 
 @demo demo/index.html
 -->

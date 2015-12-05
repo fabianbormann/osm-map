@@ -12,9 +12,10 @@
     <link rel="import" href="../../paper-toolbar/paper-toolbar.html">
     <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
     <link rel="import" href="../../paper-button/paper-button.html">
-    <link rel="import" href="../../iron-icons/iron-icons.html" >
-    <link rel="import" href="../../iron-icon/iron-icon.html" >
-    <link rel="import" href="../../iron-ajax/iron-ajax.html"></link>
+    <link rel="import" href="../../iron-icons/iron-icons.html">
+    <link rel="import" href="../../iron-icon/iron-icon.html">
+    <link rel="import" href="../../iron-ajax/iron-ajax.html">
+    <link rel="import" href="../../paper-styles/color.html">
     <link rel="import" href="../osm-map.html">
     <link rel="import" href="../osm-marker.html">
     <link rel="import" href="../osm-layer.html">
@@ -28,11 +29,19 @@
         overflow: hidden;  
         font-family: 'Open Sans', sans-serif;
       }
+
+      paper-button {
+        background-color: #3f51b5;
+        color: white;
+      }
+
+      paper-button.green {
+        background-color: #4caf50;
+      }
     </style>
   </head>
   <body unresolved>
     <template id="demo" is="dom-bind">
-
       <iron-ajax
         id="ajax"
         verbose
@@ -40,29 +49,26 @@
         on-response="finishedGeocoding">
       </iron-ajax>
 
-
       <paper-drawer-panel>
         <paper-header-panel drawer>
           <paper-toolbar>
             <h3><code>&lt;osm-map&gt;</code> Demo</h3>
           </paper-toolbar>
           <div main>
-            <datalist id="addresses">
-              <template is="dom-repeat" items="{{suggestions}}" as="suggestion">
-                  <option value="{{suggestion.display_name}}"></option>
-              </template>
-            </datalist>
 
-            <paper-input id="start" label="Start" type="search"
-              placeholder="Set a start address" autocomplete="on" list="addresses" on-keyup="cumputeStartSuggestions" results="5">
-            </paper-input>
-            <paper-input id="destination" label="Destination" type="search"
-              placeholder="Set a destination address" autocomplete="on" list="addresses" on-keyup="cumputeDestinationSuggestions" results="5">
-            </paper-input>
+            <paper-input id="search" label="Search" placeholder="Set a address"></paper-input>
 
-            <paper-button role="button" raised>
+            <paper-button class="green" role="button" on-tap="search" raised>
               <iron-icon icon="send"></iron-icon>
-              Start Navigation
+              Search
+            </paper-button>
+
+            <paper-button 
+              raised
+              class="colored"
+              on-tap="locate">
+              <iron-icon icon="explore"></iron-icon>
+              Locate
             </paper-button>
           </div>
         </paper-header-panel>
@@ -71,51 +77,38 @@
             <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
           </paper-toolbar>
           
-          <osm-map class="content fit">
-            <osm-poly fill fill-color="rgba(0,10,150,0.4)">
-                <template is="dom-repeat" items="{{ points }}">
-                  <osm-point longitude$="{{ item.longitude }}" latitude$="{{ item.latitude }}"></osm-point>
-                </template>
-            </osm-poly>
+          <osm-map class="content fit" longitude="{{ longitude }}" latitude="{{ latitude }}" zoom="{{ zoom }}">
           </osm-map>
         </paper-header-panel>
       </paper-drawer-panel>
     </template>
   </body>
   <script>
-  //TODO: https://github.com/Project-OSRM/osrm-backend/wiki/Server-api
     var demo = document.querySelector('#demo');
 
-    demo.cumputeStartSuggestions = function () {
+    demo.search = function (event) {
       var ajax = document.querySelector('#ajax');
-      var start = document.querySelector('#start');
-      var requests = ajax.activeRequests;
-
-      if (requests.length > 0)
-        for (var i = 0; i < requests.length; i++) 
-          requests[i].abort();
-
-      document.querySelector('#ajax').url = "http://nominatim.openstreetmap.org/search?format=json&q="+start.value;
-      document.querySelector('#ajax').generateRequest();
+      var search = document.querySelector('#search');
+      ajax.url = "http://nominatim.openstreetmap.org/search?format=json&q="+search.value;
+      ajax.generateRequest();
     }
 
-    demo.cumputeDestinationSuggestions = function () {
-      var ajax = document.querySelector('#ajax');
-      var destination = document.querySelector('#destination');
-      var requests = ajax.activeRequests;
-
-      if (requests.length > 0)
-        for (var i = 0; i < requests.length; i++) 
-          requests[i].abort();
-
-      document.querySelector('#ajax').url = "http://nominatim.openstreetmap.org/search?format=json&q="+destination.value;
-      document.querySelector('#ajax').generateRequest();
+    demo.locate = function (event) {
+      navigator.geolocation.getCurrentPosition( function (position) {
+        demo.longitude = position.coords.longitude;
+        demo.latitude = position.coords.latitude;
+        demo.zoom = 18;
+      });
     }
 
     demo.finishedGeocoding = function (request) {
-      demo.suggestions = request.detail.response;
-      console.log(demo.suggestions)
+      var result = request.detail.response[0];
+      if(result) {
+        document.querySelector('#search').value = result.display_name;
+        demo.longitude = result.lon;
+        demo.latitude = result.lat;
+        demo.zoom = 18;
+      }
     }
-    
   </script>
 </html>

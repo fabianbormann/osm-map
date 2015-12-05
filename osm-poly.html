@@ -3,7 +3,15 @@
 <script src="http://openlayers.org/en/v3.11.2/build/ol.js"></script>
 
 <!--
-An open street map element based on polymer 1.0 .
+The `osm-poly` element provides a possibility to draw on the `osm-map`element.
+
+Example:
+
+    <osm-poly fill fill-color="rgba(0,10,150,0.4)">
+        <template is="dom-repeat" items="{{ points }}">
+          <osm-point longitude$="{{ item.longitude }}" latitude$="{{ item.latitude }}"></osm-point>
+        </template>
+    </osm-poly> 
 
 @demo demo/index.html
 -->
@@ -13,24 +21,36 @@ An open street map element based on polymer 1.0 .
     Polymer({
       is: 'osm-poly',
       properties: {
+        /**
+         * The stroke color.
+         */ 
         strokeColor: {
           type: String,
           value: '#0091ea',
           notify: true
         },
 
+        /**
+         * A stroke width.
+         */
         width: {
           type: Number,
           value: 4,
           notify: true
         },
 
+        /**
+         * If true the polygon will be filled.
+         */
         fill: {
           type: Boolean,
           value: false,
           notify: true
         },
 
+        /**
+         * Defines a fill color for the polygon. Requires fill = true. 
+         */
         fillColor: {
           type: String,
           value: 'rgba(0,150,10,0.4)',
