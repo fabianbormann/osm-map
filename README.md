@@ -1,4 +1,4 @@
-# osm-map
+# `osm-map` element
 
 An OpenStreetMap polymer implementation. Based on OpenLayers (v3.3.0) and written in polymer 1.0 style.
 
@@ -29,16 +29,18 @@ An OpenStreetMap polymer implementation. Based on OpenLayers (v3.3.0) and writte
         	</template>
     	</osm-poly> 
 
-## Include the osm-map component in your project
+## Add `osm-map` component in your project
 
-Add bower dependency
+* Add bower dependency
 
-  	"dependencies": {
+  	    "dependencies": {
   		...,
     	"osm-map": "FabianBormann/osm-map"
-  	}
+  	    }
 
-	bower install
+2.  
+        
+         $ bower install
 	
 In your project-part.html
 
