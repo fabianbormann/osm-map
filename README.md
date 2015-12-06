@@ -42,10 +42,12 @@ An OpenStreetMap polymer implementation. Based on OpenLayers (v3.3.0) and writte
         
          $ bower install
 	
-In your project-part.html
+In your project.html
 
 	<link rel="import" href="path_to_bower_components/osm-map/osm-map.html">
 	<link rel="import" href="path_to_bower_components/osm-map/osm-marker.html">
+	<link rel="import" href="path_to_bower_components/osm-map/osm-point.html">
+	<link rel="import" href="path_to_bower_components/osm-map/osm-poly.html">
 	<link rel="import" href="path_to_bower_components/osm-map/osm-layer.html">
 
 Now you are ready to start using the components.
