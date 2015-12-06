@@ -4,6 +4,14 @@ An OpenStreetMap polymer implementation. Based on OpenLayers (v3.3.0) and writte
 
 ## Usage
 
+### Basic
+
+	<osm-map longitude="{{ longitude }}" latitude="{{ latitude }}" zoom="{{ zoom }}"></osm-map>
+	
+![Alt text](data/screenshot.png "Screenshot of /demo/index.html")
+	
+### Marker
+
 	<osm-map latitude="53.834089" longitude="10.703718" zoom="16">
 		<osm-marker longitude="10.703718" latitude="53.834089" scale="0.2" image="../data/marker-blue-shadow.png"></osm-marker>
 		<osm-marker longitude="10.705318" latitude="53.835789" image="../data/marker-green-icon-shadow.png"></osm-marker>
@@ -13,7 +21,13 @@ An OpenStreetMap polymer implementation. Based on OpenLayers (v3.3.0) and writte
 		<osm-marker longitude="10.709318" latitude="53.839789" scale="2.5"></osm-marker>
 	</osm-map>
 
-![Alt text](data/screenshot.png "Screenshot of /demo/index.html")
+### Polygon
+
+    	<osm-poly fill fill-color="rgba(0,10,150,0.4)">
+        	<template is="dom-repeat" items="{{ points }}">
+          		<osm-point longitude$="{{ item.longitude }}" latitude$="{{ item.latitude }}"></osm-point>
+        	</template>
+    	</osm-poly> 
 
 ## Include the osm-map component in your project
 
