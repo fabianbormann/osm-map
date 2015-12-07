@@ -161,28 +161,31 @@ The `osm-map` element renders a OpenStreetMap.
        * This function will also redraw the map if a `osm-point` added to a `osm-poly` element. 
        */
       updateLayers: function() {
-        self = this;
-        this.layers = [];
-        this.map.layers = this.layers; 
+        if(this.map) {
+          self = this;
+          this.layers = [];
 
-        $.each(this.queryAllEffectiveChildren('osm-layer'), function(index, layer) {
-          self.layers.push( layer.get() );
-        });
+          this.map.layers = this.layers; 
 
-        if(this.layers.length <= 0)
-          self.layers.push( new ol.layer.Tile({ source: new ol.source.OSM() }) );
+          $.each(this.queryAllEffectiveChildren('osm-layer'), function(index, layer) {
+            self.layers.push( layer.get() );
+          });
 
-        $.each(this.queryAllEffectiveChildren('osm-marker'), function(index, marker) {
-          self.layers.push( marker.getOsmMarker() );
-        });
+          if(this.layers.length <= 0)
+            self.layers.push( new ol.layer.Tile({ source: new ol.source.OSM() }) );
 
-        $.each(this.queryAllEffectiveChildren('osm-poly'), function(index, poly) {
-          self.layers.push( poly.polygon() );
-        });
+          $.each(this.queryAllEffectiveChildren('osm-marker'), function(index, marker) {
+            self.layers.push( marker.getOsmMarker() );
+          });
 
-        $.each(this.layers, function (index, layer) {
-          self.map.addLayer(layer);
-        });
+          $.each(this.queryAllEffectiveChildren('osm-poly'), function(index, poly) {
+            self.layers.push( poly.polygon() );
+          });
+
+          $.each(this.layers, function (index, layer) {
+            self.map.addLayer(layer);
+          });
+        }
       }
     });
   </script>

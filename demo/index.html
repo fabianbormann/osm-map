@@ -12,6 +12,9 @@
     <link rel="import" href="../../paper-toolbar/paper-toolbar.html">
     <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
     <link rel="import" href="../../paper-button/paper-button.html">
+    <link rel="import" href="../../paper-item/paper-item.html">
+    <link rel="import" href="../../paper-menu/paper-menu.html">
+    <link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
     <link rel="import" href="../../iron-icons/iron-icons.html">
     <link rel="import" href="../../iron-icon/iron-icon.html">
     <link rel="import" href="../../iron-ajax/iron-ajax.html">
@@ -55,6 +58,14 @@
             <h3><code>&lt;osm-map&gt;</code> Demo</h3>
           </paper-toolbar>
           <div main>
+            <paper-dropdown-menu label="Map source">
+              <paper-menu class="dropdown-content" attr-for-selected="value" selected="{{ mapSource }}">
+                  <paper-item value="bing">Bing</paper-item>
+                  <paper-item value="osm">Osm</paper-item>
+                  <paper-item value="sat">Satalite</paper-item>
+                  <paper-item value="hyb">Hybrid</paper-item>
+              </paper-menu>
+            </paper-dropdown-menu>
 
             <paper-input id="search" label="Search" placeholder="Set a address"></paper-input>
 
@@ -77,14 +88,20 @@
             <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
           </paper-toolbar>
           
-          <osm-map class="content fit" longitude="{{ longitude }}" latitude="{{ latitude }}" zoom="{{ zoom }}">
+          <osm-map class="content fit" 
+            longitude="{{ longitude }}" 
+            latitude="{{ latitude }}" 
+            zoom="{{ zoom }}">
+              <osm-layer source="{{ mapSource }}"></osm-layer>
           </osm-map>
+
         </paper-header-panel>
       </paper-drawer-panel>
     </template>
   </body>
   <script>
     var demo = document.querySelector('#demo');
+    demo.mapSource = "bing";
 
     demo.search = function (event) {
       var ajax = document.querySelector('#ajax');

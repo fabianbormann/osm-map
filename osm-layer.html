@@ -37,14 +37,41 @@ The `osm-layer` element allows to add different layer typs to the `osm-map` elem
         },
 
         /**
-         * Possible values are osm, sat, and hyb.
+         * Possible values are osm, sat, hyb and bing.
          * See (http://openlayers.org/en/v3.8.2/apidoc/ol.source.MapQuest.html)
          */
         source: {
           type: String,
-          value: 'osm'
+          value: 'osm',
+          observer: '_sourceChanged'
         },
 
+        /**
+         * A maximum zoom value.
+         * Default is 19 to see stretched tiles instead of the
+         * "no photos at this zoom level" tiles.
+         */
+        maxZoom: {
+          type: Number,
+          value: 19
+        },
+
+        /**
+         * The bing map style.
+         * Possible values are 'Road', 'Aerial', 'AerialWithLabels', 'collinsBart' or 'ordnanceSurvey'.
+         */
+        bingMapStyle: {
+          type: String,
+          value: 'AerialWithLabels'
+        } 
+
+      },
+
+      /**
+       * Force layer redraw if source changed.
+       */
+      _sourceChanged: function () {
+        this.fire('update-layers');
       },
 
       /**
@@ -52,11 +79,24 @@ The `osm-layer` element allows to add different layer typs to the `osm-map` elem
        * See (http://openlayers.org/en/v3.8.2/apidoc/ol.layer.Tile.html)
        */
       get: function() {
-        return new ol.layer.Tile({ 
-          visible: this.visible,
-          preload: this.preload,
-          source: new ol.source.MapQuest({ layer: this.source }) 
-        });
+        if(this.source == "bing") {
+          return new ol.layer.Tile({
+            visible: this.visible,
+            preload: this.preload,
+            source: new ol.source.BingMaps({
+              key: 'Ak-dzM4wZjSqTlzveKz5u0d4IQ4bRzVI309GxmkgSVr1ewS6iPSrOvOKhA-CJlm3',
+              imagerySet: this.bingMapStyle,
+              maxZoom: this.maxZoom
+            })
+          });
+        }
+        else {
+          return new ol.layer.Tile({ 
+            visible: this.visible,
+            preload: this.preload,
+            source: new ol.source.MapQuest({ layer: this.source }) 
+          });
+        }
       }
     });
   </script>
