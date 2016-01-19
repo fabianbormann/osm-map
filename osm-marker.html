@@ -40,14 +40,13 @@ Example:
         scale: {
           type: Number,
           notify: true,
-          value: 0.4
+          value: 1.5
         },
 
-        image: {
+        color: {
           type: String,
-          notify: true
+          value: '#CC0000'
         }
-
       },
       getOsmMarker: function() {
         var iconFeatures = [];
@@ -65,24 +64,14 @@ Example:
           features: iconFeatures //add an array of features
         });
 
-        if(this.image)
-          var iconImage = new ol.style.Icon(({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 0.75,
-            src: this.image,
-            scale: this.scale
-          }))
-        else
-          var iconImage = new ol.style.Circle({
-            radius: 25*this.scale,
-            fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
-            stroke: new ol.style.Stroke({color: 'red', width: 1})
-          });
-
         var iconStyle = new ol.style.Style({
-          image: iconImage
+            image: new ol.style.Icon( ({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                scale: this.scale,
+                src: 'data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; width: 100%; height: 100%; fill: '+this.color+';" xmlns="http://www.w3.org/2000/svg"><g class="style-scope iron-icon"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" class="style-scope iron-icon"></path></g></svg>'
+            }))
         });
 
         return vectorLayer = new ol.layer.Vector({
