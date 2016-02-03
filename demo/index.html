@@ -60,10 +60,10 @@
           <div main>
             <paper-dropdown-menu label="Map source">
               <paper-menu class="dropdown-content" attr-for-selected="value" selected="{{ mapSource }}">
-                  <paper-item value="bing">Bing</paper-item>
                   <paper-item value="osm">Osm</paper-item>
                   <paper-item value="sat">Satalite</paper-item>
                   <paper-item value="hyb">Hybrid</paper-item>
+                  <paper-item value="bing">Bing</paper-item>
               </paper-menu>
             </paper-dropdown-menu>
 
@@ -96,6 +96,12 @@
               <osm-marker longitude="10.7001245" latitude="53.8338072"></osm-marker>
               <osm-marker color="#00cc00" longitude="10.7000245" latitude="53.8638072"></osm-marker>
               <osm-marker color="#0000cc" longitude="10.7010245" latitude="53.8238072"></osm-marker>
+              <osm-poly fill-opacity="0.5" fill-color="red" stroke-color="red" closed>
+                <osm-point latitude="53.699089" longitude="10.603718"></osm-point>
+                <osm-point latitude="53.694089" longitude="10.608718"></osm-point>
+                <osm-point latitude="53.689089" longitude="10.603718"></osm-point>
+                <osm-point latitude="53.694089" longitude="10.598718"></osm-point>
+              </osm-poly>
           </osm-map>
 
         </paper-header-panel>
@@ -104,7 +110,7 @@
   </body>
   <script>
     var demo = document.querySelector('#demo');
-    demo.mapSource = "bing";
+    demo.mapSource = "osm";
 
     demo.search = function (event) {
       var ajax = document.querySelector('#ajax');

@@ -40,9 +40,9 @@ Example:
         },
 
         /**
-         * If true the polygon will be filled.
+         * If true the polygon will be filled and connect the last with the first node.
          */
-        fill: {
+        closed: {
           type: Boolean,
           value: false,
           notify: true
@@ -55,6 +55,15 @@ Example:
           type: String,
           value: 'rgba(0,150,10,0.4)',
           notify: true
+        },
+
+        /**
+         * The polygon interior transparency  
+         */
+        fillOpacity: {
+          type: Number,
+          value: 0,
+          notify: true
         }
       },
 
@@ -64,20 +73,49 @@ Example:
         });
       },
 
+      _computeColor: function() {
+        if (this.fillColor.charAt(0) == "#") {
+          var h = "0123456789abcdef";
+          var hex = this.fillColor.toLowerCase();
+          var r = h.indexOf(hex[1])*16+h.indexOf(hex[2]);
+          var g = h.indexOf(hex[3])*16+h.indexOf(hex[4]);
+          var b = h.indexOf(hex[5])*16+h.indexOf(hex[6]);
+          return "rgba("+r+", "+g+", "+b+", "+fillOpacity+")";
+        }
+        else if (this.fillColor.substring(0, 4).toLowerCase() == "rgba") {
+          console.warn('Polygon fill-color is an rgba value so fill-opacity will be overwritten!' 
+          + ' You shout better use an rgb or hex value combined with fill-opacity attribute.');
+          return this.fillColor;
+        }
+        else if (this.fillColor.substring(0, 4).toLowerCase() == "rgb(") {
+          return "rgba"+this.fillColor.slice(3,-1)+","+this.fillOpacity+")";
+        }
+        else { // assume this.fillColor must be a name like blue, white, black
+          dummy = document.createElement("div");
+          dummy.style.color = this.fillColor;
+          document.body.appendChild(dummy);
+          var rgbColor = window.getComputedStyle(dummy).color;
+          document.body.removeChild(dummy);
+          return "rgba"+rgbColor.slice(3,-1)+","+this.fillOpacity+")";
+        };
+      },
+
       polygon: function() {
-        points = [];
+        var points = [];
         $.each(this.queryAllEffectiveChildren('osm-point'), function(index, point) {
           points.push(point.position());
-
-          if(this.fill && index == this.queryAllEffectiveChildren('osm-point').length)
-            points.push(this.queryAllEffectiveChildren('osm-point')[0].position());
         });
+
+        if(this.closed)
+          points.push(this.queryAllEffectiveChildren('osm-point')[0].position());
 
         geometry = new ol.geom.LineString(points, 'XY');
 
         // need to transfrom the lineString described in 
         // https://groups.google.com/forum/#!topic/ol3-dev/TqLw0RRJLXw
         geometry.transform('EPSG:4326', 'EPSG:3857');
+
+        console.log(this._computeColor())
 
         return new ol.layer.Vector({
           source: new ol.source.Vector({
@@ -86,7 +124,7 @@ Example:
           style: new ol.style.Style({
               stroke: new ol.style.Stroke({ color: this.strokeColor, width: this.width }),
               fill: new ol.style.Fill({
-                color: this.fillColor
+                color: this._computeColor()
               })
           }),
           name: 'routeLayer'
