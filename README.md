@@ -8,7 +8,7 @@ An OpenStreetMap polymer implementation. Based on OpenLayers (v3.3.0) and writte
 
 	<osm-map longitude="{{ longitude }}" latitude="{{ latitude }}" zoom="{{ zoom }}"></osm-map>
 	
-<img src="https://cloud.githubusercontent.com/assets/1525818/12798153/29e2ab0a-cac8-11e5-8459-8160b77c5d5b.png" width="500"/>
+<img src="https://cloud.githubusercontent.com/assets/1525818/12798245/a2f8c61e-cac8-11e5-8ad5-e8ebb0dd781d.png" width="500"/>
 	
 ### Marker
 
